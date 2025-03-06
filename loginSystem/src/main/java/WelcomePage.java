@@ -87,8 +87,9 @@ public class WelcomePage {
     }
 
     private void setupActions() {
+
         addMetricsButton.addActionListener(e ->
-                showFeatureMessage("Add Metrics", "Track your daily health measurements"));
+                new InputMetrics());
 
         displayMetricsButton.addActionListener(e ->
                 showFeatureMessage("Display Metrics", "View historical health data"));
