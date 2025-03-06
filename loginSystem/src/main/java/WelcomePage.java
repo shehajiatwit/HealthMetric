@@ -1,33 +1,37 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;
 import org.jfree.data.category.*;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class WelcomePage {
-    JFrame frame = new JFrame();
-    JLabel welcomeLabel = new JLabel("Welcome ");
-    JButton checkUserButton = new JButton("Check User Data");
-    JButton retrieveUserButton = new JButton("Retrieve User Data");
+    private JFrame frame = new JFrame();
+    private JLabel welcomeLabel = new JLabel("Welcome");
+    private JButton checkUserButton = new JButton("Check User Data");
+    private JButton retrieveUserButton = new JButton("Retrieve User Data");
 
-    WelcomePage(){
+    public WelcomePage() {
         // Set up main frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420 , 420);
-        frame.setLayout(null);
+        frame.setSize(600, 400);
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // padding for spacing between components
 
         // Set up welcome label
-        welcomeLabel.setBounds(0, 0, 200, 35);
-        welcomeLabel.setFont(new Font(null , Font.PLAIN, 25));
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);  // Center the label
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        frame.add(welcomeLabel, gbc);
 
-        // Set button bounds
-        checkUserButton.setBounds(125, 200, 180, 25);
-        retrieveUserButton.setBounds(225 , 200 , 180 , 25);
+        // Set up buttons
+        checkUserButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        retrieveUserButton.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        // Add action listener to button
+        // Add action listener to "Check User Data" button
         checkUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,11 +39,18 @@ public class WelcomePage {
             }
         });
 
-        // Add components to frame
-        frame.add(welcomeLabel);
-        frame.add(checkUserButton);
-        frame.add(retrieveUserButton);
+        // Set up layout for buttons: Centering them
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 50, 10, 50);  // Larger padding for the buttons
+        frame.add(checkUserButton, gbc);
 
+        gbc.gridx = 1;
+        frame.add(retrieveUserButton, gbc);
+
+        // Show frame
         frame.setVisible(true);
     }
 
