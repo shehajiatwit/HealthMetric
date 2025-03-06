@@ -7,6 +7,8 @@ public class IDandPasswords {
     IDandPasswords() {
 
         loginInfo.put("ilgert", "123");
+        loginInfo.put("abia", "123");
+        loginInfo.put("kevin", "123");
         
 
     }

@@ -3,93 +3,122 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class WelcomePage {
-    private JFrame frame = new JFrame();
+    private JFrame frame;
     private JLabel welcomeLabel;
+    private JPanel mainPanel, buttonPanel;
+    private JButton addMetricsButton, displayMetricsButton, displayHealthReportButton, exitButton;
 
-    // Buttons for user options
-    private JButton addMetricsButton = new JButton("Add Metrics");
-    private JButton displayMetricsButton = new JButton("Display Metrics");
-    private JButton displayHealthReportButton = new JButton("Display Health Report");
-    private JButton exitButton = new JButton("Exit");
+    private final Color BG_COLOR = new Color(255, 255, 255);
+    private final Color PRIMARY_COLOR = new Color(70, 130, 180);  // Steel blue
+    private final Font BUTTON_FONT = new Font("Segoe UI", Font.PLAIN, 16);
 
-    // Constructor to accept the username and display it
     public WelcomePage(String username) {
-        // Set up main frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
-        frame.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15); // padding for spacing between components
-
-        // Set up welcome label with the username
-        welcomeLabel = new JLabel("Welcome, " + username);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);  // Center the label
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        frame.add(welcomeLabel, gbc);
-
-        // Set up the buttons with larger font for easy reading
-        addMetricsButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        displayMetricsButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        displayHealthReportButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        exitButton.setFont(new Font("Arial", Font.PLAIN, 16));
-
-        // Add action listeners to the buttons
-        addMetricsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "Add Metrics functionality is yet to be implemented.");
-            }
-        });
-
-        displayMetricsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "Display Metrics functionality is yet to be implemented.");
-            }
-        });
-
-        displayHealthReportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "Display Health Report functionality is yet to be implemented.");
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Exit the application when "Exit" button is pressed
-                System.exit(0);
-            }
-        });
-
-        // Layout for buttons: Center them
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 50, 10, 50);  // Larger padding for buttons
-        frame.add(addMetricsButton, gbc);
-
-        gbc.gridx = 1;
-        frame.add(displayMetricsButton, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        frame.add(displayHealthReportButton, gbc);
-
-        gbc.gridx = 1;
-        frame.add(exitButton, gbc);
-
-        // Show frame
+        initializeFrame();
+        createComponents(username);
+        setupLayout();
+        setupActions();
         frame.setVisible(true);
     }
 
+    private void initializeFrame() {
+        frame = new JFrame("Health Metrics Dashboard");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(600, 400));
+        frame.setLocationRelativeTo(null);
+    }
+
+    private void createComponents(String username) {
+        welcomeLabel = new JLabel("Welcome, " + username);
+        welcomeLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        welcomeLabel.setForeground(new Color(60, 60, 60));
+
+        // Create all buttons with the same color scheme
+        addMetricsButton = createStyledButton("Add Metrics");
+        displayMetricsButton = createStyledButton("Display Metrics");
+        displayHealthReportButton = createStyledButton("Generate Report");
+        exitButton = createStyledButton("Exit System");
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(BUTTON_FONT);
+        button.setBackground(PRIMARY_COLOR);
+        button.setForeground(Color.WHITE);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        button.setFocusPainted(false);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+
+        // Add subtle hover effect
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(PRIMARY_COLOR.darker());
+            }
+
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(PRIMARY_COLOR);
+            }
+        });
+
+        return button;
+    }
+
+    private void setupLayout() {
+        mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        mainPanel.setBackground(BG_COLOR);
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.add(welcomeLabel);
+        headerPanel.setBackground(BG_COLOR);
+
+        buttonPanel = new JPanel(new GridLayout(4, 1, 10, 15)); // Vertical stack
+        buttonPanel.setBackground(BG_COLOR);
+        buttonPanel.add(addMetricsButton);
+        buttonPanel.add(displayMetricsButton);
+        buttonPanel.add(displayHealthReportButton);
+        buttonPanel.add(exitButton);
+
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+
+        frame.add(mainPanel);
+        frame.pack();
+    }
+
+    private void setupActions() {
+        addMetricsButton.addActionListener(e ->
+                showFeatureMessage("Add Metrics", "Track your daily health measurements"));
+
+        displayMetricsButton.addActionListener(e ->
+                showFeatureMessage("Display Metrics", "View historical health data"));
+
+        displayHealthReportButton.addActionListener(e ->
+                showFeatureMessage("Health Report", "Generate comprehensive health analysis"));
+
+        exitButton.addActionListener(e -> confirmExit());
+    }
+
+    private void showFeatureMessage(String title, String message) {
+        JOptionPane.showMessageDialog(frame,
+                "<html><div style='width: 250px; padding: 10px; text-align: center;'>" + message + "</div></html>",
+                title,
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void confirmExit() {
+        int confirm = JOptionPane.showConfirmDialog(frame,
+                "Are you sure you want to exit the application?",
+                "Confirm Exit",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
+
     public static void main(String[] args) {
-        // Example to show WelcomePage with a sample username
-        new WelcomePage("ilgert");  // Change "ilgert" to whatever username you want to test
+        SwingUtilities.invokeLater(() -> new WelcomePage("ilgert"));
     }
 }
