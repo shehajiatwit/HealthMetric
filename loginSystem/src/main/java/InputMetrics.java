@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class InputMetrics {
     JFrame frame;
-    JButton addHeartRate;
-    JButton addBloodPressure;
-    JButton addGlucose;
-    private final Color PRIMARY_COLOR = new Color(70, 130, 180); // Steel blue
+    JButton addHeartRate, addBloodPressure, addGlucose;
+    JTextField inputField;
+    JButton submitButton;
+    JLabel metricLabel;
+    private final Color PRIMARY_COLOR = new Color(70, 130, 180);
     private final Font BUTTON_FONT = new Font("Segoe UI", Font.PLAIN, 16);
 
     public InputMetrics() {
@@ -18,15 +20,28 @@ public class InputMetrics {
 
     private void initializeFrame() {
         frame = new JFrame("Input Metrics Dashboard");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Changed to dispose instead of exit
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setMinimumSize(new Dimension(400, 300));
         frame.setLocationRelativeTo(null);
     }
 
     private void createUIComponents() {
+        // Main buttons
         addHeartRate = createStyledButton("Add Heart Rate");
         addBloodPressure = createStyledButton("Add Blood Pressure");
         addGlucose = createStyledButton("Add Glucose Level");
+
+        // Input components (initially hidden)
+        metricLabel = new JLabel("", SwingConstants.CENTER);
+        metricLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        metricLabel.setForeground(new Color(60, 60, 60));
+
+        inputField = new JTextField();
+        inputField.setFont(BUTTON_FONT);
+        inputField.setVisible(false);
+
+        submitButton = createStyledButton("Submit");
+        submitButton.setVisible(false);
     }
 
     private JButton createStyledButton(String text) {
@@ -39,13 +54,12 @@ public class InputMetrics {
         button.setOpaque(true);
         button.setBorderPainted(false);
 
-        // Hover effects
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 button.setBackground(PRIMARY_COLOR.darker());
             }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 button.setBackground(PRIMARY_COLOR);
             }
         });
@@ -66,17 +80,46 @@ public class InputMetrics {
         titlePanel.setBackground(Color.WHITE);
         titlePanel.add(titleLabel);
 
-        // Button Panel
+        // Metric Selection Panel
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 15));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(addHeartRate);
         buttonPanel.add(addBloodPressure);
         buttonPanel.add(addGlucose);
 
+        // Input Panel
+        JPanel inputPanel = new JPanel(new GridLayout(3, 1, 5, 10));
+        inputPanel.setBackground(Color.WHITE);
+        inputPanel.add(metricLabel);
+        inputPanel.add(inputField);
+        inputPanel.add(submitButton);
+        inputPanel.setVisible(false);
+
+        // Add action listeners
+        addHeartRate.addActionListener(e -> showInputField("Heart Rate (bpm):"));
+        addBloodPressure.addActionListener(e -> showInputField("Blood Pressure (mmHg):"));
+        addGlucose.addActionListener(e -> showInputField("Glucose Level (mg/dL):"));
+
+        submitButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(frame, "Submitted value: " + inputField.getText());
+            inputPanel.setVisible(false);
+            inputField.setText("");
+        });
+
         mainPanel.add(titlePanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.add(inputPanel, BorderLayout.SOUTH);
 
         frame.add(mainPanel);
+        frame.pack();
+    }
+
+    private void showInputField(String metric) {
+        metricLabel.setText(metric);
+        inputField.setVisible(true);
+        submitButton.setVisible(true);
+        ((JPanel) submitButton.getParent()).setVisible(true);
+        inputField.requestFocus();
         frame.pack();
     }
 
