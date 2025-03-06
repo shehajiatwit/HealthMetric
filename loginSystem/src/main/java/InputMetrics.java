@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class InputMetrics {
     JFrame frame;
@@ -101,7 +103,16 @@ public class InputMetrics {
         addGlucose.addActionListener(e -> showInputField("Glucose Level (mg/dL):"));
 
         submitButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Submitted value: " + inputField.getText());
+            LocalDateTime now = LocalDateTime.now();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            String formattedTime = now.format(formatter);
+            String message = String.format("<html>Submitted at %s:<br>Value: %s</html>",
+            formattedTime,
+            inputField.getText());
+
+            JOptionPane.showMessageDialog(frame, message);
             inputPanel.setVisible(false);
             inputField.setText("");
         });
