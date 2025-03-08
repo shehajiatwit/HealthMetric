@@ -218,14 +218,8 @@ public class HealthReport extends Application {
         thread.setDaemon(false);
         thread.start();
     }
-/*
-*to be fixed later on
+
     public static void main(String[] args) {
-        //startApp();
-        System.out.println("Times: " + times);
-        System.out.println("Heart Rates: " + heartRates);
-        System.out.println("Glucose Levels: " + glucose);
-        System.out.println("Systolic: " + systolic);
-        System.out.println("Dystolic: " + dystolic);
-    }*/
+        startApp();
+    }
 }
