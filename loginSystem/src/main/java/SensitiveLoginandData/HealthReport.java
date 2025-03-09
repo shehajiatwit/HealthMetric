@@ -16,20 +16,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HealthReport extends Application {
-
-    /*
-     * Returns a user's username.
-     */
-    public String userName() {
-        IDandPasswords user = new IDandPasswords();
-        HashMap<String, String> loginInfo = user.getLoginInfo();
-        String username = null;
-        for (String key : loginInfo.keySet()) {
-            username = key;
-            break;
-        }
-        return username;
-    }
+	
+	private static String username; 
+	
+	/*
+	 * Sets the username to the argument
+	 */
+	public static void setUsername(String user) {
+		username = user;
+	}
+	
+	/*
+	 * Returns username 
+	 */
+	public String userName() {
+		return username;
+	}
 
     /*
      * Returns an ArrayList of Strings of the user's current and past health metrics.
@@ -48,7 +50,7 @@ public class HealthReport extends Application {
         ArrayList<String> userTimes = new ArrayList<>();
         ArrayList<Long> userTimesL = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = 0; i < allMetrics.size();  i++) {
             userTimesL.add(Long.parseLong(allMetrics.get(i)[0]));
         }
         for (int i = 0; i < userTimesL.size(); i++) {
@@ -211,15 +213,16 @@ public class HealthReport extends Application {
         stage.show();
     }
 
-    // Method to start JavaFX application. So, if calling from a different class, call HealthReport.startApp();
+    // Method to start JavaFX application. So, if calling from a different class, call HealthReport.startApp(String username);
 
-    public static void startApp() {
+    public static void startApp(String user) {
+    	setUsername(user);
         Thread thread = new Thread(() -> Application.launch(HealthReport.class));
         thread.setDaemon(false);
         thread.start();
     }
 
     public static void main(String[] args) {
-        startApp();
+        startApp("John Doe");
     }
 }
