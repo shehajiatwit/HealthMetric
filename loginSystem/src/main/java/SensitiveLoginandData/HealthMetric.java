@@ -41,22 +41,46 @@ public class HealthMetric {
        LocalTime timeNow = LocalTime.now();
        System.out.println(timeNow);
     }
-
+    
     /*
-     * Returns false if the values of each health metric are nonsensical.
-     * Returns true if the values are realistic.
+     * Returns false if the values of the heart beat are nonsensical. 
+     * Returns true of the values of the heart beat are realistic. 
      */
-    public boolean validateInput() {
-        if (heartRate < 20 || heartRate > 200) { // Represents unrealistic range for heart rate
+    public boolean validateHeartInput(float hr) {
+    	if (hr < 20 || hr > 200) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    /*
+     * Returns false if the values of the systolic bp are nonsensical. 
+     * Returns true of the values of the systolic bp are realistic. 
+     */
+    public boolean validateSystolic(float s) {
+    	if (s < 60 || s > 200) { 
             return false;
         }
-        if (systolic < 60 || systolic > 200) { // Represents unrealistic range for systolic bp
+    	return true;
+    }
+    
+    /*
+     * Returns false if the values of the dystolic bp are nonsensical. 
+     * Returns true of the values of the dystolic bp are realistic. 
+     */
+    public boolean validateDystolic(float d) {
+    	if (d < 30 || d > 150) { 
             return false;
         }
-        if (dystolic < 30 || dystolic > 150) { // Represents unrealistic range for dystolic bp
-            return false;
-        }
-        if (glucoseLevel < 30 || glucoseLevel > 300) { // Represents unrealistic range for fasting blood glucose levels
+    	return true;
+    }
+    
+    /*
+     * Returns false if the values of the glucose levels are nonsensical. 
+     * Returns true of the values of the glucose  are realistic. 
+     */
+    public boolean validateGlucose(float g) {
+    	if (g < 30 || g > 300) { 
             return false;
         }
         return true;
@@ -76,7 +100,7 @@ public class HealthMetric {
     }
 
     public float getHeartRate() {
-        return this.heartRate;
+       return this.heartRate;
     }
 
     public float getSystolic() {
