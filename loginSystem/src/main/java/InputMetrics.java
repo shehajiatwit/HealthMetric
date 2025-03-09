@@ -166,21 +166,21 @@ public class InputMetrics {
             switch (metricType) {
                 case "heartRate":
                     int hr = Integer.parseInt(inputValue);
-                    if (hr < 60) return "Heart rate is too low. Seek medical attention.";
-                    if (hr > 100) return "Heart rate is too high. Seek medical attention.";
+                    if (hr < 20) return "Heart rate is too low. Seek medical attention.";
+                    if (hr > 200) return "Heart rate is too high. Seek medical attention.";
                     break;
                 case "bloodPressure":
                     String[] parts = inputValue.split("/");
                     if (parts.length != 2) return "Invalid format. Use systolic/diastolic (e.g., 120/80)";
                     int systolic = Integer.parseInt(parts[0].trim());
                     int diastolic = Integer.parseInt(parts[1].trim());
-                    if (systolic >= 130 || diastolic >= 80) return "High blood pressure. Seek medical attention.";
-                    if (systolic < 90 || diastolic < 60) return "Low blood pressure. Seek medical attention.";
+                    if (systolic >= 200 || diastolic >= 150) return "High blood pressure. Seek medical attention.";
+                    if (systolic < 60 || diastolic < 30) return "Low blood pressure. Seek medical attention.";
                     break;
                 case "glucose":
                     int glucose = Integer.parseInt(inputValue);
-                    if (glucose < 70) return "Glucose level is too low. Seek medical attention.";
-                    if (glucose > 140) return "Glucose level is too high. Seek medical attention.";
+                    if (glucose < 30) return "Glucose level is too low. Seek medical attention.";
+                    if (glucose > 300) return "Glucose level is too high. Seek medical attention.";
                     break;
             }
         } catch (NumberFormatException e) {

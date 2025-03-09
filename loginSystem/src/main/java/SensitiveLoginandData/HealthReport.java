@@ -45,13 +45,13 @@ public class HealthReport extends Application {
 
 
     /*
-     * Returns an ArrayList of Strings of the all the times the user's health metrics recorded
+     * Returns an ArrayList of Strings of the all the times the user's health metrics recorded from oldest to most recent. 
      */
     public ArrayList<String> getTimes() throws FileNotFoundException {
         ArrayList<String> userTimes = new ArrayList<>();
         ArrayList<Long> userTimesL = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size();  i++) {
+        for (int i = allMetrics.size() - 1; i >= 0;  i--) {
             userTimesL.add(Long.parseLong(allMetrics.get(i)[0]));
         }
         for (int i = 0; i < userTimesL.size(); i++) {
@@ -62,12 +62,12 @@ public class HealthReport extends Application {
     }
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their systolic bp values.
+     * Returns an ArrayList of floats of the user's measures of their systolic bp values from oldest to most recent. 
      */
     public ArrayList<Float> getSystolic() throws FileNotFoundException {
         ArrayList<Float> userSystolic = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userSystolic.add(Float.parseFloat(allMetrics.get(i)[1]));
         }
 
@@ -76,12 +76,12 @@ public class HealthReport extends Application {
 
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their dystolic bp values.
+     * Returns an ArrayList of floats of the user's measures of their dystolic bp values from oldest to most recent. 
      */
     public ArrayList<Float> getDystolic() throws FileNotFoundException{
         ArrayList<Float> userDystolic = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userDystolic.add(Float.parseFloat(allMetrics.get(i)[2]));
         }
 
@@ -89,24 +89,24 @@ public class HealthReport extends Application {
     }
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their heart beat.
+     * Returns an ArrayList of floats of the user's measures of their heart beat from oldest to most recent. 
      */
     public ArrayList<Float> getHeartRates() throws FileNotFoundException {
         ArrayList<Float> userHeartRates = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userHeartRates.add(Float.parseFloat(allMetrics.get(i)[3]));
         }
         return userHeartRates;
     }
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their glucose levels.
+     * Returns an ArrayList of floats of the user's measures of their glucose levels from oldest to most recent. 
      */
     public ArrayList<Float> getGlucoseLevel() throws FileNotFoundException {
         ArrayList<Float> userGlucoseLevels = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userGlucoseLevels.add(Float.parseFloat(allMetrics.get(i)[4])); 
         }
 

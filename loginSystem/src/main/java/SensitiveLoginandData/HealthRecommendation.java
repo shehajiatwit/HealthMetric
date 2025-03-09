@@ -85,7 +85,7 @@ public class HealthRecommendation {
     public int compareGlucose(float g) {
     	int rating = 5;
     	if (g < NORMAL_GLUCOSE_LEVELS[0]) { // Glucose levels are lower than normal
-    	    if (g < 30) {
+    	    if (g < 35) {
     	        rating = 1;
     	    }
     	    else if (g < 40) {
@@ -99,7 +99,7 @@ public class HealthRecommendation {
     	  }
          }
       else if (g > NORMAL_GLUCOSE_LEVELS[1]) { // Glucose levels are higher than normal
-    	   if (g >= 300) {
+    	   if (g >= 250) {
     	      rating = 1;
     	   }
     	   else if (g >= 200) {

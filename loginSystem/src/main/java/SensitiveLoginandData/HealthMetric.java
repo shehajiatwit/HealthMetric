@@ -42,50 +42,6 @@ public class HealthMetric {
        System.out.println(timeNow);
     }
     
-    /*
-     * Returns false if the values of the heart beat are nonsensical. 
-     * Returns true of the values of the heart beat are realistic. 
-     */
-    public boolean validateHeartInput(float hr) {
-    	if (hr < 20 || hr > 200) {
-    		return false;
-    	}
-    	return true;
-    }
-    
-    /*
-     * Returns false if the values of the systolic bp are nonsensical. 
-     * Returns true of the values of the systolic bp are realistic. 
-     */
-    public boolean validateSystolic(float s) {
-    	if (s < 60 || s > 200) { 
-            return false;
-        }
-    	return true;
-    }
-    
-    /*
-     * Returns false if the values of the dystolic bp are nonsensical. 
-     * Returns true of the values of the dystolic bp are realistic. 
-     */
-    public boolean validateDystolic(float d) {
-    	if (d < 30 || d > 150) { 
-            return false;
-        }
-    	return true;
-    }
-    
-    /*
-     * Returns false if the values of the glucose levels are nonsensical. 
-     * Returns true of the values of the glucose  are realistic. 
-     */
-    public boolean validateGlucose(float g) {
-    	if (g < 30 || g > 300) { 
-            return false;
-        }
-        return true;
-    }
-    
     public void setHeartRate(float newHeartRate) {
         this.heartRate = newHeartRate;
     }
