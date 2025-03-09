@@ -106,7 +106,7 @@ public class HealthReport extends Application {
         ArrayList<Float> userGlucoseLevels = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
         for (int i = 0; i < allMetrics.size(); i++) {
-            userGlucoseLevels.add(Float.parseFloat(allMetrics.get(i)[4]));
+            userGlucoseLevels.add(Float.parseFloat(allMetrics.get(i)[4])); 
         }
 
         return userGlucoseLevels;
