@@ -1,5 +1,6 @@
 package SensitiveLoginandData;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -55,7 +56,7 @@ public class HealthReport extends Application {
         }
         for (int i = 0; i < userTimesL.size(); i++) {
             ZonedDateTime dateTime = (Instant.ofEpochSecond(userTimesL.get(i)).atZone(ZoneId.of("America/New_York")));
-            userTimes.add(dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            userTimes.add(dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
         return userTimes;
     }
@@ -137,6 +138,8 @@ public class HealthReport extends Application {
         NumberAxis heartRateYAxis = new NumberAxis();
         heartRateXAxis.setLabel("Dates");
         heartRateYAxis.setLabel("Heart Rate (bpm)");
+        heartRateXAxis.setCategories(FXCollections.observableArrayList(times));
+
 
         // Creates line chart for heart rate
         LineChart<String, Number> heartRateChart = new LineChart<>(heartRateXAxis, heartRateYAxis);
@@ -156,6 +159,8 @@ public class HealthReport extends Application {
         NumberAxis glucoseYAxis = new NumberAxis();
         glucoseXAxis.setLabel("Dates");
         glucoseYAxis.setLabel("Glucose Level (mg/dL)");
+        glucoseXAxis.setCategories(FXCollections.observableArrayList(times));
+
 
         // Creates line chart for glucose
         LineChart<String, Number> glucoseChart = new LineChart<>(glucoseXAxis, glucoseYAxis);
@@ -174,6 +179,8 @@ public class HealthReport extends Application {
         NumberAxis bpYAxis = new NumberAxis();
         bpXAxis.setLabel("Dates");
         bpYAxis.setLabel("Blood Pressure (mmHg)");
+        bpXAxis.setCategories(FXCollections.observableArrayList(times));
+
 
         // Creates line chart for blood pressure
         LineChart<String, Number> bpChart = new LineChart<>(bpXAxis, bpYAxis);
