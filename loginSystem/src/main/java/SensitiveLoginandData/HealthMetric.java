@@ -38,8 +38,8 @@ public class HealthMetric {
     }
 
     public void setTime() {
-        LocalTime timeNow = LocalTime.now();
-        System.out.println("Current Time: " + timeNow);
+       LocalTime timeNow = LocalTime.now();
+       System.out.println(timeNow);
     }
 
     /*
@@ -61,7 +61,7 @@ public class HealthMetric {
         }
         return true;
     }
-
+    
     public void setHeartRate(float newHeartRate) {
         this.heartRate = newHeartRate;
     }
