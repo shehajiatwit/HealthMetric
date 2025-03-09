@@ -219,9 +219,13 @@ public class HealthReport extends Application {
         stage.setTitle(userName() + "'s Health Metric Report");
         stage.show();
     }
+    
+    // Method that allows the user to download the report. 
+    public static void downloadReport() {
+    	
+    }
 
     // Method to start JavaFX application. So, if calling from a different class, call HealthReport.startApp(String username);
-
     public static void startApp(String user) {
     	setUsername(user);
         Thread thread = new Thread(() -> Application.launch(HealthReport.class));
