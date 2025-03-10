@@ -1,5 +1,6 @@
 package SensitiveLoginandData;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -16,20 +17,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HealthReport extends Application {
-
-    /*
-     * Returns a user's username.
-     */
-    public String userName() {
-        IDandPasswords user = new IDandPasswords();
-        HashMap<String, String> loginInfo = user.getLoginInfo();
-        String username = null;
-        for (String key : loginInfo.keySet()) {
-            username = key;
-            break;
-        }
-        return username;
-    }
+	
+	private static String username; 
+	
+	/*
+	 * Sets the username to the argument
+	 */
+	public static void setUsername(String user) {
+		username = user;
+	}
+	
+	/*
+	 * Returns username 
+	 */
+	public String userName() {
+		return username;
+	}
 
     /*
      * Returns an ArrayList of Strings of the user's current and past health metrics.
@@ -42,29 +45,29 @@ public class HealthReport extends Application {
 
 
     /*
-     * Returns an ArrayList of Strings of the all the times the user's health metrics recorded
+     * Returns an ArrayList of Strings of the all the times the user's health metrics recorded from oldest to most recent. 
      */
     public ArrayList<String> getTimes() throws FileNotFoundException {
         ArrayList<String> userTimes = new ArrayList<>();
         ArrayList<Long> userTimesL = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0;  i--) {
             userTimesL.add(Long.parseLong(allMetrics.get(i)[0]));
         }
         for (int i = 0; i < userTimesL.size(); i++) {
             ZonedDateTime dateTime = (Instant.ofEpochSecond(userTimesL.get(i)).atZone(ZoneId.of("America/New_York")));
-            userTimes.add(dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            userTimes.add(dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
         return userTimes;
     }
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their systolic bp values.
+     * Returns an ArrayList of floats of the user's measures of their systolic bp values from oldest to most recent. 
      */
     public ArrayList<Float> getSystolic() throws FileNotFoundException {
         ArrayList<Float> userSystolic = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userSystolic.add(Float.parseFloat(allMetrics.get(i)[1]));
         }
 
@@ -73,12 +76,12 @@ public class HealthReport extends Application {
 
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their dystolic bp values.
+     * Returns an ArrayList of floats of the user's measures of their dystolic bp values from oldest to most recent. 
      */
     public ArrayList<Float> getDystolic() throws FileNotFoundException{
         ArrayList<Float> userDystolic = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userDystolic.add(Float.parseFloat(allMetrics.get(i)[2]));
         }
 
@@ -86,25 +89,25 @@ public class HealthReport extends Application {
     }
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their heart beat.
+     * Returns an ArrayList of floats of the user's measures of their heart beat from oldest to most recent. 
      */
     public ArrayList<Float> getHeartRates() throws FileNotFoundException {
         ArrayList<Float> userHeartRates = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
             userHeartRates.add(Float.parseFloat(allMetrics.get(i)[3]));
         }
         return userHeartRates;
     }
 
     /*
-     * Returns an ArrayList of floats of the user's current and past measures of their glucose levels.
+     * Returns an ArrayList of floats of the user's measures of their glucose levels from oldest to most recent. 
      */
     public ArrayList<Float> getGlucoseLevel() throws FileNotFoundException {
         ArrayList<Float> userGlucoseLevels = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
-        for (int i = 0; i < allMetrics.size(); i++) {
-            userGlucoseLevels.add(Float.parseFloat(allMetrics.get(i)[4]));
+        for (int i = allMetrics.size() - 1; i >= 0; i--) {
+            userGlucoseLevels.add(Float.parseFloat(allMetrics.get(i)[4])); 
         }
 
         return userGlucoseLevels;
@@ -135,6 +138,8 @@ public class HealthReport extends Application {
         NumberAxis heartRateYAxis = new NumberAxis();
         heartRateXAxis.setLabel("Dates");
         heartRateYAxis.setLabel("Heart Rate (bpm)");
+        heartRateXAxis.setCategories(FXCollections.observableArrayList(times));
+
 
         // Creates line chart for heart rate
         LineChart<String, Number> heartRateChart = new LineChart<>(heartRateXAxis, heartRateYAxis);
@@ -154,6 +159,8 @@ public class HealthReport extends Application {
         NumberAxis glucoseYAxis = new NumberAxis();
         glucoseXAxis.setLabel("Dates");
         glucoseYAxis.setLabel("Glucose Level (mg/dL)");
+        glucoseXAxis.setCategories(FXCollections.observableArrayList(times));
+
 
         // Creates line chart for glucose
         LineChart<String, Number> glucoseChart = new LineChart<>(glucoseXAxis, glucoseYAxis);
@@ -172,6 +179,8 @@ public class HealthReport extends Application {
         NumberAxis bpYAxis = new NumberAxis();
         bpXAxis.setLabel("Dates");
         bpYAxis.setLabel("Blood Pressure (mmHg)");
+        bpXAxis.setCategories(FXCollections.observableArrayList(times));
+
 
         // Creates line chart for blood pressure
         LineChart<String, Number> bpChart = new LineChart<>(bpXAxis, bpYAxis);
@@ -210,16 +219,21 @@ public class HealthReport extends Application {
         stage.setTitle(userName() + "'s Health Metric Report");
         stage.show();
     }
+    
+    // Method that allows the user to download the report. 
+    public static void downloadReport() {
+    	
+    }
 
-    // Method to start JavaFX application. So, if calling from a different class, call HealthReport.startApp();
-
-    public static void startApp() {
+    // Method to start JavaFX application. So, if calling from a different class, call HealthReport.startApp(String username);
+    public static void startApp(String user) {
+    	setUsername(user);
         Thread thread = new Thread(() -> Application.launch(HealthReport.class));
         thread.setDaemon(false);
         thread.start();
     }
 
     public static void main(String[] args) {
-        startApp();
+        startApp("John Doe");
     }
 }

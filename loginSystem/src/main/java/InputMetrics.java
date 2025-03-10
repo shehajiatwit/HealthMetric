@@ -185,19 +185,34 @@ public class InputMetrics {
             switch (currentMetric) {
                 case "heartRate":
                     int hr = Integer.parseInt(inputValue);
+<<<<<<< HEAD
                     if (hr < 30 || hr > 250) return "Unusual heart rate value";
+=======
+                    if (hr < 20) return "Heart rate is too low. Seek medical attention.";
+                    if (hr > 200) return "Heart rate is too high. Seek medical attention.";
+>>>>>>> 91ae8517841c22f27fa3ec1c02d9c3e4572b8089
                     break;
                 case "bloodPressure":
                     String[] parts = inputValue.split("/");
                     if (parts.length != 2) return "Invalid format. Use systolic/diastolic";
                     int systolic = Integer.parseInt(parts[0].trim());
                     int diastolic = Integer.parseInt(parts[1].trim());
+<<<<<<< HEAD
                     if (systolic < 50 || diastolic < 30) return "Impossibly low blood pressure";
                     if (systolic > 250 || diastolic > 150) return "Dangerously high blood pressure";
+=======
+                    if (systolic >= 200 || diastolic >= 150) return "High blood pressure. Seek medical attention.";
+                    if (systolic < 60 || diastolic < 30) return "Low blood pressure. Seek medical attention.";
+>>>>>>> 91ae8517841c22f27fa3ec1c02d9c3e4572b8089
                     break;
                 case "glucoseRate":
                     int glucose = Integer.parseInt(inputValue);
+<<<<<<< HEAD
                     if (glucose < 20 || glucose > 1000) return "Extreme glucose level";
+=======
+                    if (glucose < 30) return "Glucose level is too low. Seek medical attention.";
+                    if (glucose > 300) return "Glucose level is too high. Seek medical attention.";
+>>>>>>> 91ae8517841c22f27fa3ec1c02d9c3e4572b8089
                     break;
             }
         } catch (NumberFormatException e) {

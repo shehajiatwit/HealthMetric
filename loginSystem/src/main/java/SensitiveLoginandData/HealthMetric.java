@@ -38,30 +38,10 @@ public class HealthMetric {
     }
 
     public void setTime() {
-        LocalTime timeNow = LocalTime.now();
-        System.out.println("Current Time: " + timeNow);
+       LocalTime timeNow = LocalTime.now();
+       System.out.println(timeNow);
     }
-
-    /*
-     * Returns false if the values of each health metric are nonsensical.
-     * Returns true if the values are realistic.
-     */
-    public boolean validateInput() {
-        if (heartRate < 20 || heartRate > 200) { // Represents unrealistic range for heart rate
-            return false;
-        }
-        if (systolic < 60 || systolic > 200) { // Represents unrealistic range for systolic bp
-            return false;
-        }
-        if (dystolic < 30 || dystolic > 150) { // Represents unrealistic range for dystolic bp
-            return false;
-        }
-        if (glucoseLevel < 30 || glucoseLevel > 300) { // Represents unrealistic range for fasting blood glucose levels
-            return false;
-        }
-        return true;
-    }
-
+    
     public void setHeartRate(float newHeartRate) {
         this.heartRate = newHeartRate;
     }
@@ -76,7 +56,7 @@ public class HealthMetric {
     }
 
     public float getHeartRate() {
-        return this.heartRate;
+       return this.heartRate;
     }
 
     public float getSystolic() {
