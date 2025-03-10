@@ -2,8 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Author: Ilgert Shehaj
+ * Welcome page presents the user with different options
+ * A method chaining is used for the implementation for simplicity
+ * BorderFactory && GridBagConstrains is used for a dynamic layout
+ */
 public class WelcomePage {
     private JFrame frame;
+    private final String username;
     private JLabel welcomeLabel;
     private JPanel mainPanel, buttonPanel;
     private JButton addMetricsButton, displayMetricsButton, displayHealthReportButton, exitButton;
@@ -13,6 +20,7 @@ public class WelcomePage {
     private final Font BUTTON_FONT = new Font("Segoe UI", Font.PLAIN, 16);
 
     public WelcomePage(String username) {
+        this.username = username;
         initializeFrame();
         createComponents(username);
         setupLayout();
@@ -89,7 +97,7 @@ public class WelcomePage {
     private void setupActions() {
 
         addMetricsButton.addActionListener(e ->
-                new InputMetrics());
+                new InputMetrics(username , frame));
 
         displayMetricsButton.addActionListener(e ->
                 showFeatureMessage("Display Metrics", "View historical health data"));

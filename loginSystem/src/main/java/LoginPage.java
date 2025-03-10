@@ -3,6 +3,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 
+/**
+ * Author: Ilgert Shehaj
+ * LoginPage, where user inputs for username and password are checked in the hashmap
+ * A method chaining is used for the implementation for simplicity
+ * BorderFactory && GridBagConstrains is used for a dynamic layout
+ *
+ */
+
 public class LoginPage implements ActionListener {
     private JFrame frame;
     private JButton loginButton, resetButton;
@@ -118,7 +126,7 @@ public class LoginPage implements ActionListener {
             performLogin();
         }
     }
-
+//if user is found or not
     private void performLogin() {
         String userID = userIDField.getText();
         String password = new String(userPasswordField.getPassword());
@@ -142,6 +150,7 @@ public class LoginPage implements ActionListener {
     }
 
     public static void main(String[] args) {
+       //not necessary
         SwingUtilities.invokeLater(() -> {
             // Remove the system look and feel line
             IDandPasswords idAndPasswords = new IDandPasswords();
