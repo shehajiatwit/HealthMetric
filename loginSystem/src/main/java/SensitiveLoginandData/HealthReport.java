@@ -149,7 +149,9 @@ public class HealthReport extends Application {
         // Adds each data point (the user's heart rates) onto the graph to create a trendline
         ArrayList<Float> heartRates = getHeartRates();
         for (int i = 0; i < heartRates.size(); i++) {
-            series1.getData().add(new XYChart.Data<>(times.get(i),heartRates.get(i)));
+        	if (heartRates.get(i) != 0) {
+        		series1.getData().add(new XYChart.Data<>(times.get(i),heartRates.get(i)));
+        	}
         }
         heartRateChart.getData().add(series1);
 
@@ -170,7 +172,9 @@ public class HealthReport extends Application {
         // Adds each data point (the user's glucose levels) onto the graph to create a trendline
         ArrayList<Float> glucose = getGlucoseLevel();
         for (int i = 0; i < glucose.size(); i++) {
-            series2.getData().add(new XYChart.Data<>(times.get(i),glucose.get(i)));
+        	if (glucose.get(i) != 0) {
+        		series2.getData().add(new XYChart.Data<>(times.get(i),glucose.get(i)));
+        	}
         }
         glucoseChart.getData().add(series2);
 
@@ -193,12 +197,16 @@ public class HealthReport extends Application {
         // Creates the systolic trendline
         ArrayList<Float> systolic = getSystolic();
         for (int i = 0; i < systolic.size(); i++) {
-            series3.getData().add(new XYChart.Data<>(times.get(i),systolic.get(i)));
+        	if (systolic.get(i) != 0) {
+        		series3.getData().add(new XYChart.Data<>(times.get(i),systolic.get(i)));
+        	}
         }
         // Creates the dystolic trendline
         ArrayList<Float> dystolic = getDystolic();
         for (int i = 0; i < dystolic.size(); i++) {
-            series4.getData().add(new XYChart.Data<>(times.get(i),dystolic.get(i)));
+        	if (dystolic.get(i) != 0) {
+        		series4.getData().add(new XYChart.Data<>(times.get(i),dystolic.get(i)));
+        	}
         }
         bpChart.getData().addAll(series3,series4);
 
