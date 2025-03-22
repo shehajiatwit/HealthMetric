@@ -17,7 +17,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Pos;
+import javafx.scene.image.WritableImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+import javafx.stage.FileChooser;
 
 public class HealthReport extends Application {
 	
@@ -182,7 +188,6 @@ public class HealthReport extends Application {
         heartRateYAxis.setLabel("Heart Rate (bpm)");
         heartRateXAxis.setCategories(FXCollections.observableArrayList(times));
 
-
         // Creates line chart for heart rate
         LineChart<String, Number> heartRateChart = new LineChart<>(heartRateXAxis, heartRateYAxis);
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
@@ -251,8 +256,6 @@ public class HealthReport extends Application {
         	}
         }
         bpChart.getData().addAll(series3,series4);
-
-        // Will add a additional section (in increment 2) to the application that will show the average ratings of a user's health metrics
         
         // Compute average ratings
         float[] averageRatings = getAverageRatings();
@@ -262,18 +265,32 @@ public class HealthReport extends Application {
         heartRateChart.setPrefSize(800, 300);
         glucoseChart.setPrefSize(800, 300);
         bpChart.setPrefSize(800, 300);
+        
+        // Create a Text node to display the title.
+        Text title = new Text(userName() + "'s Health Report");
+        title.setFill(Color.BLACK);
+        title.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+        VBox tbox = new VBox(title);
+        tbox.setAlignment(Pos.CENTER); // centers the texts
 
         // Create a Text node to display recommendations
         Text recommendationLabel = new Text(recommendationText);
         recommendationLabel.setFill(Color.DARKBLUE);
         recommendationLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
-        // Add recommendations to the VBox layout
+        // Creates full report containing title, charts, and recommendation
         VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(heartRateChart, glucoseChart, bpChart, recommendationLabel);
+        vbox.getChildren().addAll(tbox,heartRateChart, glucoseChart, bpChart, recommendationLabel);
+        
+        // Create a "Download Report" button
+        Button downloadButton = new Button("Download Report");
+        downloadButton.setOnAction(e -> downloadReport(vbox)); // Calls the download method
+
+        // Add the button to the VBox
+        vbox.getChildren().add(downloadButton);
 
         // Set the scene
-        Scene scene = new Scene(vbox, 800, 950);
+        Scene scene = new Scene(vbox, 700, 850); // 800 & 950
         stage.setScene(scene);
         stage.setTitle(userName() + "'s Health Metric Report");
         stage.show();
@@ -284,29 +301,29 @@ public class HealthReport extends Application {
 
         // Heart Rate Recommendation
         if (ratings[0] < 2) {
-            recommendation.append("- Your heart rate is low. Consider exercising or consulting a doctor.\n");
+            recommendation.append("- Your average heart rate is low. Consult a doctor.\n");
         } else if (ratings[0] > 4) {
-            recommendation.append("- Your heart rate is above average. Ensure regular check-ups.\n");
+            recommendation.append("- Your average heart rate is above average. Ensure regular check-ups.\n");
         } else {
-            recommendation.append("- Your heart rate is within a healthy range.\n");
+            recommendation.append("- Your average heart rate is within a healthy range.\n");
         }
 
         // Glucose Level Recommendation
         if (ratings[1] < 2) {
-            recommendation.append("- Your glucose levels are low. Maintain a balanced diet.\n");
+            recommendation.append("- Your average glucose levels are low. Consult a doctor. Maintain a balanced diet.\n");
         } else if (ratings[1] > 4) {
-            recommendation.append("- Your glucose levels are high. Consider reducing sugar intake.\n");
+            recommendation.append("- Your average glucose levels are high. Consult a doctor. Consider reducing sugar intake.\n");
         } else {
             recommendation.append("- Your glucose levels are normal.\n");
         }
 
         // Blood Pressure Recommendation
         if (ratings[2] < 2) {
-            recommendation.append("- Your blood pressure is low. Stay hydrated and maintain proper nutrition.\n");
+            recommendation.append("- Your average blood pressure is low. Stay hydrated and maintain proper nutrition.\n");
         } else if (ratings[2] > 4) {
-            recommendation.append("- Your blood pressure is high. Reduce sodium intake and consult a physician.\n");
+            recommendation.append("- Your average blood pressure is high. Reduce sodium intake and consult a physician.\n");
         } else {
-            recommendation.append("- Your blood pressure is in a good range.\n");
+            recommendation.append("- Your average blood pressure is in a good range.\n");
         }
 
         return recommendation.toString();
@@ -314,8 +331,24 @@ public class HealthReport extends Application {
 
     
     // Method that allows the user to download the report. 
-    public static void downloadReport() {
+    public static void downloadReport(VBox vbox) {
+    	WritableImage image = new WritableImage((int) vbox.getWidth(), (int) vbox.getHeight());
+    	vbox.snapshot(null, image);
     	
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Save Report");
+    	fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Image", "*.png"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try {
+                // Write the image to a file
+                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                System.out.println("Report saved as " + file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Method to start JavaFX application. So, if calling from a different class, call HealthReport.startApp(String username);
