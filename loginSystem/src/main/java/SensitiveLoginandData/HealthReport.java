@@ -6,6 +6,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.chart.CategoryAxis;
 import java.io.FileNotFoundException;
@@ -116,12 +119,51 @@ public class HealthReport extends Application {
     /*
      * TO BE IMPLEMENTED IN INCREMENT 2
      * This method will return the average ratings of each of the user's health metrics.
-     * int[0] = average rating of user's heart beat
-     * int[1] = average rating of user's glucose levels
-     * int[2] = average rating of user's blood pressure
+     * [0] = average rating of user's heart beat
+     * [1] = average rating of user's glucose levels
+     * [2] = average rating of user's blood pressure
      */
-    public int[] getAverageRatings() {
-        return new int[0];
+    public float[] getAverageRatings() throws FileNotFoundException {
+    	float[] ratings = new float[3];
+    	
+    	// Computes average ratings of heart rate.
+    	HealthRecommendation hr = new HealthRecommendation();
+    	float sumHR = 0;
+    	float countHR = 0;
+    	for (int i = 0; i < getHeartRates().size(); i++) {
+    		if (getHeartRates().get(i) != 0) {
+    			sumHR += hr.compareHeartRate(getHeartRates().get(i));
+    			countHR++;
+    		}
+    	}
+    	ratings[0] = (sumHR / countHR);
+    	
+    	// Computes average rating of glucose levels.
+    	HealthRecommendation gl = new HealthRecommendation();
+    	float sumGL = 0;
+    	float countGL = 0;
+    	for (int i = 0; i < getGlucoseLevel().size(); i++) {
+    		if (getGlucoseLevel().get(i) != 0) {
+    			sumGL += gl.compareGlucose(getGlucoseLevel().get(i));
+    			countGL++;
+    		}
+    	}
+    	ratings[1] = (sumGL/countGL);
+    	
+    	// Computes average rating of blood pressure.
+    	HealthRecommendation bp = new HealthRecommendation();
+    	float sumBP = 0;
+    	float countBP = 0;
+    	int size = getSystolic().size(); // It's ensured that dystolic and systolic are the same size since it's required for user to input systolic and dystolic
+    	for (int i = 0; i < size; i++) {
+    		if (getSystolic().get(i) != 0 && getDystolic().get(i) != 0) {
+    			sumBP += bp.compareBloodPressure(getSystolic().get(i), getDystolic().get(i));
+    			countBP++;
+    		} 
+    	}
+    	ratings[2] = (sumBP/countBP);
+    	
+    	return ratings;		
     }
 
     /*
@@ -211,22 +253,65 @@ public class HealthReport extends Application {
         bpChart.getData().addAll(series3,series4);
 
         // Will add a additional section (in increment 2) to the application that will show the average ratings of a user's health metrics
-
+        
+        // Compute average ratings
+        float[] averageRatings = getAverageRatings();
+        String recommendationText = generateRecommendation(averageRatings);
+        
         // Sets the size of all charts
         heartRateChart.setPrefSize(800, 300);
         glucoseChart.setPrefSize(800, 300);
         bpChart.setPrefSize(800, 300);
 
-        // Create a VBox layout to hold the charts
-        VBox vbox = new VBox(10); // 10px spacing between charts
-        vbox.getChildren().addAll(heartRateChart, glucoseChart, bpChart);
+        // Create a Text node to display recommendations
+        Text recommendationLabel = new Text(recommendationText);
+        recommendationLabel.setFill(Color.DARKBLUE);
+        recommendationLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
-        // Create a scene and add it to the stage
-        Scene scene = new Scene(vbox, 800, 900); // Set the size of the scene
+        // Add recommendations to the VBox layout
+        VBox vbox = new VBox(10);
+        vbox.getChildren().addAll(heartRateChart, glucoseChart, bpChart, recommendationLabel);
+
+        // Set the scene
+        Scene scene = new Scene(vbox, 800, 950);
         stage.setScene(scene);
         stage.setTitle(userName() + "'s Health Metric Report");
         stage.show();
     }
+    
+    private String generateRecommendation(float[] ratings) {
+        StringBuilder recommendation = new StringBuilder("Health Recommendations:\n");
+
+        // Heart Rate Recommendation
+        if (ratings[0] < 2) {
+            recommendation.append("- Your heart rate is low. Consider exercising or consulting a doctor.\n");
+        } else if (ratings[0] > 4) {
+            recommendation.append("- Your heart rate is above average. Ensure regular check-ups.\n");
+        } else {
+            recommendation.append("- Your heart rate is within a healthy range.\n");
+        }
+
+        // Glucose Level Recommendation
+        if (ratings[1] < 2) {
+            recommendation.append("- Your glucose levels are low. Maintain a balanced diet.\n");
+        } else if (ratings[1] > 4) {
+            recommendation.append("- Your glucose levels are high. Consider reducing sugar intake.\n");
+        } else {
+            recommendation.append("- Your glucose levels are normal.\n");
+        }
+
+        // Blood Pressure Recommendation
+        if (ratings[2] < 2) {
+            recommendation.append("- Your blood pressure is low. Stay hydrated and maintain proper nutrition.\n");
+        } else if (ratings[2] > 4) {
+            recommendation.append("- Your blood pressure is high. Reduce sodium intake and consult a physician.\n");
+        } else {
+            recommendation.append("- Your blood pressure is in a good range.\n");
+        }
+
+        return recommendation.toString();
+    }
+
     
     // Method that allows the user to download the report. 
     public static void downloadReport() {
@@ -239,9 +324,5 @@ public class HealthReport extends Application {
         Thread thread = new Thread(() -> Application.launch(HealthReport.class));
         thread.setDaemon(false);
         thread.start();
-    }
-
-    public static void main(String[] args) {
-        startApp("John Doe");
     }
 }
