@@ -26,7 +26,7 @@ public class HealthReportLauncher extends Application {
         try {
             // Call the startReport method to initialize the UI
             healthReport.startReport(stage);
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

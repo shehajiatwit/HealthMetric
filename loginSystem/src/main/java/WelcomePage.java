@@ -2,6 +2,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Author: Ilgert Shehaj
@@ -101,7 +104,7 @@ public class WelcomePage {
                 new InputMetrics(username , frame));
 
         displayMetricsButton.addActionListener(e ->
-                showFeatureMessage("Display Metrics", "View historical health data"));
+                    displayUserMetrics());
 
         displayHealthReportButton.addActionListener(e -> {
             // Launch HealthReport with the logged-in username
@@ -119,6 +122,54 @@ public class WelcomePage {
                 "<html><div style='width: 250px; padding: 10px; text-align: center;'>" + message + "</div></html>",
                 title,
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void displayUserMetrics() {
+        // Read the user's metrics from the CSV file
+        String filename = "health_data.csv";
+        StringBuilder metricsText = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4 && parts[0].equals(username)) {
+                    // Format the metric entry
+                    metricsText.append("Metric: ").append(parts[1]).append("\n")
+                            .append("Value: ").append(parts[2]).append("\n")
+                            .append("Time: ").append(parts[3]).append("\n\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(frame, "Error reading health data: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Create a dialog to display the metrics
+        JDialog metricsDialog = new JDialog(frame, "User Metrics", true);
+        metricsDialog.setLayout(new BorderLayout());
+        metricsDialog.setSize(400, 300);
+        metricsDialog.setLocationRelativeTo(frame);
+
+        // Create a JTextArea to display the metrics
+        JTextArea textArea = new JTextArea(metricsText.toString());
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        JScrollPane scrollPane = new JScrollPane(textArea);
+
+        // Add the JTextArea to the dialog
+        metricsDialog.add(scrollPane, BorderLayout.CENTER);
+
+        // Add a close button
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(e -> metricsDialog.dispose());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(closeButton);
+        metricsDialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Display the dialog
+        metricsDialog.setVisible(true);
     }
 
     private void confirmExit() {
