@@ -6,6 +6,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -241,7 +242,9 @@ public class HealthReport {
                 heartRateSeries.getData().add(new XYChart.Data<>(times.get(i), heartRates.get(i)));
             }
             heartRateChart.getData().add(heartRateSeries);
+            
 
+            
             // Create data series for glucose levels chart
             CategoryAxis glucoseXAxis = new CategoryAxis();
             NumberAxis glucoseYAxis = new NumberAxis();
@@ -259,6 +262,7 @@ public class HealthReport {
                 glucoseSeries.getData().add(new XYChart.Data<>(times.get(i), glucoseLevels.get(i)));
             }
             glucoseChart.getData().add(glucoseSeries);
+            
 
             // Create data series for blood pressure levels chart
             CategoryAxis bpXAxis = new CategoryAxis();
@@ -286,9 +290,9 @@ public class HealthReport {
             String recommendationText = generateRecommendation(averageRatings);
 
             // Set the size of all charts
-            heartRateChart.setPrefSize(800, 300);
-            glucoseChart.setPrefSize(800, 300);
-            bpChart.setPrefSize(800, 300);
+            heartRateChart.setPrefSize(800, 400);
+            glucoseChart.setPrefSize(800,400);
+            bpChart.setPrefSize(800,400);
 
             // Create a Text node to display the title
             Text title = new Text(userName() + "'s Health Report");
@@ -319,9 +323,16 @@ public class HealthReport {
             HBox buttonBox = new HBox(10, downloadButton, cancelButton);
             buttonBox.setAlignment(Pos.CENTER);
             vbox.getChildren().add(buttonBox);
+            
+            // Add a scroll bar
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(vbox);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefHeight(850);
 
             // Set the scene
-            Scene scene = new Scene(vbox, 1000, 850); 
+           // Scene scene = new Scene(vbox, 1000, 850); 
+            Scene scene = new Scene(scrollPane,1000,850);
             stage.setScene(scene);
             stage.setTitle(userName() + "'s Health Metric Report");
             stage.show();
@@ -333,32 +344,37 @@ public class HealthReport {
 
     private String generateRecommendation(float[] ratings) {
         StringBuilder recommendation = new StringBuilder("Health Recommendations:\n");
+        
+        String hrRecommendation = String.format("%.1f", ratings[0]);
+        String glucoseRecommendation = String.format("%.1f", ratings[1]);
+        String bpRecommendation = String.format("%.1f", ratings[2]);
+
 
         // Heart Rate Recommendation
         if (ratings[0] < 2) {
-            recommendation.append("Your average heart rate score is " + ratings[0] + "/5 - Your average heart rate is abnormal. Consult a doctor.\n");
+            recommendation.append("Your average heart rate score is " + hrRecommendation + "/5 - Your average heart rate is abnormal. Consult a doctor.\n");
         } else if (ratings[0] > 4) {
-            recommendation.append("Your average heart rate score is " + ratings[0] + "/5 - Your average heart rate is within a healthy range.\n");
+            recommendation.append("Your average heart rate score is " + hrRecommendation + "/5 - Your average heart rate is within a healthy range.\n");
         } else {
-            recommendation.append("Your average heart rate score is " + ratings[0] + "/5 - Your average heart rate is moderate. Ensure regular check-ups to avoid a severe progression.\n");
+            recommendation.append("Your average heart rate score is " + hrRecommendation + "/5 - Your average heart rate is moderate. Ensure regular check-ups to avoid a severe progression.\n");
         }
 
         // Glucose Level Recommendation
         if (ratings[1] < 2) {
-            recommendation.append("Your average glucose level score is " + ratings[1] + "/5 - Your average glucose levels are abnormal. Consult a doctor. Maintain a balanced diet.\n");
+            recommendation.append("Your average glucose level score is " + glucoseRecommendation + "/5 - Your average glucose levels are abnormal. Consult a doctor. Maintain a balanced diet.\n");
         } else if (ratings[1] > 4) {
-            recommendation.append("Your average glucose level score is " + ratings[1] + "/5 - Your average glucose levels are within a healthy range.\n");
+            recommendation.append("Your average glucose level score is " + glucoseRecommendation + "/5 - Your average glucose levels are within a healthy range.\n");
         } else {
-            recommendation.append("Your average glucose level score is " + ratings[1] + "/5 - Your glucose levels are moderate. Ensure regular check-ups to avoid a severe progression.\n");
+            recommendation.append("Your average glucose level score is " + glucoseRecommendation + "/5 - Your glucose levels are moderate. Ensure regular check-ups to avoid a severe progression.\n");
         }
 
         // Blood Pressure Recommendation
         if (ratings[2] < 2) {
-            recommendation.append("Your average blood pressure score is " + ratings[2] + "/5 - Your average blood pressure is abnormal. Consult a doctor. Stay hydrated and maintain proper nutrition.\n");
+            recommendation.append("Your average blood pressure score is " + bpRecommendation + "/5 - Your average blood pressure is abnormal. Consult a doctor. Stay hydrated and maintain proper nutrition.\n");
         } else if (ratings[2] > 4) {
-            recommendation.append("Your average blood pressure score is " + ratings[2] + "/5 - Your average blood pressure is within a healthy range.\n");
+            recommendation.append("Your average blood pressure score is " + bpRecommendation + "/5 - Your average blood pressure is within a healthy range.\n");
         } else {
-            recommendation.append("Your average blood pressure score is " + ratings[2] + "/5 - Your average blood pressure is moderate. Ensure regular check-ups to avoid a severe progression. \n");
+            recommendation.append("Your average blood pressure score is " + bpRecommendation + "/5 - Your average blood pressure is moderate. Ensure regular check-ups to avoid a severe progression. \n");
         }
 
         return recommendation.toString();
