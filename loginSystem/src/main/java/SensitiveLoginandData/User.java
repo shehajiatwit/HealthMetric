@@ -76,7 +76,7 @@ public class User {
                 }
 
                 return unix;
-            } catch (FileNotFoundException e) {break Superloop;}
+            } catch (IOException e) {break Superloop;}
         }
 
         return null;
@@ -95,7 +95,7 @@ public class User {
                 }
 
                 return d;
-            } catch (FileNotFoundException e) {break Superloop;}
+            } catch (IOException e) {break Superloop;}
         }
 
         return null;
@@ -113,7 +113,7 @@ public class User {
                 }
 
                 return d;
-            } catch (FileNotFoundException e) {break Superloop;}
+            } catch (IOException e) {break Superloop;}
         }
 
         return null;
@@ -131,7 +131,7 @@ public class User {
                 }
 
                 return d;
-            } catch (FileNotFoundException e) {break Superloop;}
+            } catch (IOException e) {break Superloop;}
         }
 
         return null;

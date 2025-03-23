@@ -1,15 +1,5 @@
-ilgert,heartRate,67,2025-03-07 23:01:16
-ilgert,bloodRate,120/60,2025-03-07 23:01:32
-ilgert,glucoseRate,60,2025-03-07 23:01:37
-abia,heartRate,78,2025-03-07 23:02:14
-abia,bloodRate,60,2025-03-07 23:02:19
-abia,glucoseRate,60,2025-03-07 23:02:23
-kevin,heartRate,123,2025-03-07 23:05:33
-kevin,bloodRate,12,2025-03-07 23:05:40
-kevin,glucoseRate,11111,2025-03-07 23:05:44
-ilgert,heartRate,123,2025-03-07 23:34:22
-abia,heartRate,456,2025-03-07 23:34:36
-kevin,heartRate,789,2025-03-07 23:34:48
-ilgert,heartRate,190,2025-03-09 20:00:23
-ilgert,heartRate,123,2025-03-09 20:12:16
 
+ilgert,heartRate,190,2025-03-22 13:21:58
+ilgert,bloodPressure,190/100,2025-03-22 13:22:08
+ilgert,glucoseRate,123,2025-03-22 13:22:13
+ilgert,heartRate,111,2025-03-22 13:25:56

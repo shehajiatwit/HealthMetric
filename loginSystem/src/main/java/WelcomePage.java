@@ -1,3 +1,6 @@
+import SensitiveLoginandData.HealthReport;
+import SensitiveLoginandData.HealthReportLauncher;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -102,9 +105,14 @@ public class WelcomePage {
         displayMetricsButton.addActionListener(e ->
                 showFeatureMessage("Display Metrics", "View historical health data"));
 
-        displayHealthReportButton.addActionListener(e ->
-                showFeatureMessage("Health Report", "Generate comprehensive health analysis"));
+        displayHealthReportButton.addActionListener(e -> {
+            // Launch HealthReport with the logged-in username
+            HealthReportLauncher.launchHealthReport(username);
+            // Close the WelcomePage after triggering the report
+            frame.dispose();
+        });
 
+        // Action for exiting the application
         exitButton.addActionListener(e -> confirmExit());
     }
 
