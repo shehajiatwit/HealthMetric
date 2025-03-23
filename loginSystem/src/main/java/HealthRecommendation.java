@@ -38,7 +38,7 @@ public class HealthRecommendation {
             else {
             	rating = 4;
             }
-       } 
+        }
         return rating;
     }
 
@@ -115,7 +115,7 @@ public class HealthRecommendation {
     	   else if (g >= 100) {
     	        rating = 4;
     	   }
-    } 
+    }
         return rating;
     }
 

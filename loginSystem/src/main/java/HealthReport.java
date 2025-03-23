@@ -330,8 +330,6 @@ public class HealthReport {
             scrollPane.setFitToWidth(true);
             scrollPane.setPrefHeight(850);
 
-            // Set the scene
-           // Scene scene = new Scene(vbox, 1000, 850); 
             Scene scene = new Scene(scrollPane,1000,850);
             stage.setScene(scene);
             stage.setTitle(userName() + "'s Health Metric Report");
@@ -342,7 +340,7 @@ public class HealthReport {
         }
     }
 
-    private String generateRecommendation(float[] ratings) {
+    private String generateRecommendation(float[] ratings) throws FileNotFoundException {
         StringBuilder recommendation = new StringBuilder("Health Recommendations:\n");
         
         String hrRecommendation = String.format("%.1f", ratings[0]);
@@ -351,7 +349,9 @@ public class HealthReport {
 
 
         // Heart Rate Recommendation
-        if (ratings[0] < 2) {
+        if (getHeartRates().size() == 0) {
+        	recommendation.append("You do not have enough data to generate a recommendation for heart rates.\n");
+        } else if (ratings[0] < 2) {
             recommendation.append("Your average heart rate score is " + hrRecommendation + "/5 - Your average heart rate is abnormal. Consult a doctor.\n");
         } else if (ratings[0] > 4) {
             recommendation.append("Your average heart rate score is " + hrRecommendation + "/5 - Your average heart rate is within a healthy range.\n");
@@ -360,7 +360,9 @@ public class HealthReport {
         }
 
         // Glucose Level Recommendation
-        if (ratings[1] < 2) {
+        if (getGlucoseLevel().size() == 0) {
+        	recommendation.append("You do not have enough data to generate a recommendation for glucose levels.\n");
+        } else if (ratings[1] < 2) {
             recommendation.append("Your average glucose level score is " + glucoseRecommendation + "/5 - Your average glucose levels are abnormal. Consult a doctor. Maintain a balanced diet.\n");
         } else if (ratings[1] > 4) {
             recommendation.append("Your average glucose level score is " + glucoseRecommendation + "/5 - Your average glucose levels are within a healthy range.\n");
@@ -369,7 +371,9 @@ public class HealthReport {
         }
 
         // Blood Pressure Recommendation
-        if (ratings[2] < 2) {
+        if (getSystolic().size() == 0 || getDystolic().size() == 0) {
+        	recommendation.append("You do not have enough data to generate a recommendation for blood pressure.\n");
+        } else if (ratings[2] < 2) {
             recommendation.append("Your average blood pressure score is " + bpRecommendation + "/5 - Your average blood pressure is abnormal. Consult a doctor. Stay hydrated and maintain proper nutrition.\n");
         } else if (ratings[2] > 4) {
             recommendation.append("Your average blood pressure score is " + bpRecommendation + "/5 - Your average blood pressure is within a healthy range.\n");
