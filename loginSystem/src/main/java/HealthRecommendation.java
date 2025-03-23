@@ -1,4 +1,6 @@
-package SensitiveLoginandData;
+/*
+ * Abia Hasan
+ */
 
 public class HealthRecommendation {
 	private static final float[] NORMAL_SYSTOLIC = {90f,120f}; // represents the normal systolic range in mm Hg
