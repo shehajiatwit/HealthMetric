@@ -45,7 +45,7 @@ public class InputMetrics {
         addHeartRate = createStyledButton("Add Heart Rate");
         addBloodPressure = createStyledButton("Add Blood Pressure");
         addGlucose = createStyledButton("Add Glucose Level");
-        logout = createStyledButton("Logout");
+        logout = createStyledButton("Cancel");
 
         metricLabel = new JLabel("", SwingConstants.CENTER);
         metricLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -144,12 +144,6 @@ public class InputMetrics {
 
     public void handleLogout() {
         frame.dispose();
-        if(welcomeFrame != null) {
-            welcomeFrame.dispose();
-        }
-        IDandPasswords idandPasswords = new IDandPasswords();
-        new LoginPage(idandPasswords.getLoginInfo());
-
     }
     private void showInputField(String metric) {
         metricLabel.setText(metric);

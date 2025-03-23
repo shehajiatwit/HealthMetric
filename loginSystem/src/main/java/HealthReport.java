@@ -3,6 +3,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
@@ -308,9 +309,16 @@ public class HealthReport {
             // Create a "Download Report" button
             Button downloadButton = new Button("Download Report");
             downloadButton.setOnAction(e -> downloadReport(vbox)); // Calls the download method
-
+            //create a cancel button to go back to welcome page
+            Button cancelButton = new Button("Cancel");
+            cancelButton.setOnAction(e -> {
+                stage.close();
+                new WelcomePage(userName());
+                    });
             // Add the button to the VBox
-            vbox.getChildren().add(downloadButton);
+            HBox buttonBox = new HBox(10, downloadButton, cancelButton);
+            buttonBox.setAlignment(Pos.CENTER);
+            vbox.getChildren().add(buttonBox);
 
             // Set the scene
             Scene scene = new Scene(vbox, 700, 850); // 800 & 950

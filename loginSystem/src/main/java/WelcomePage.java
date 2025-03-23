@@ -22,9 +22,11 @@ public class WelcomePage {
     private final Color BG_COLOR = new Color(255, 255, 255);
     private final Color PRIMARY_COLOR = new Color(70, 130, 180);  // Steel blue
     private final Font BUTTON_FONT = new Font("Segoe UI", Font.PLAIN, 16);
+    IDandPasswords idandPasswords;
 
     public WelcomePage(String username) {
         this.username = username;
+        this.idandPasswords = new IDandPasswords();
         initializeFrame();
         createComponents(username);
         setupLayout();
@@ -48,7 +50,7 @@ public class WelcomePage {
         addMetricsButton = createStyledButton("Add Metrics");
         displayMetricsButton = createStyledButton("Display Metrics");
         displayHealthReportButton = createStyledButton("Generate Report");
-        exitButton = createStyledButton("Exit System");
+        exitButton = createStyledButton("Log out");
     }
 
     private JButton createStyledButton(String text) {
@@ -174,13 +176,14 @@ public class WelcomePage {
 
     private void confirmExit() {
         int confirm = JOptionPane.showConfirmDialog(frame,
-                "Are you sure you want to exit the application?",
+                "Are you sure you want to log out",
                 "Confirm Exit",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            frame.dispose();
+            new LoginPage(idandPasswords.getLoginInfo());
         }
     }
 
