@@ -1,5 +1,5 @@
 // Kevin Eloi <eloik@wit.edu>
-package SensitiveLoginandData;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
