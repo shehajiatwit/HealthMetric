@@ -48,36 +48,37 @@ public class HealthRecommendation {
      * 5 = healthy
      */
     
+    /*
+     * Returns a rating from 1-5 of user's blood pressure.  
+     * 1 = unhealthy (should seek immediate medical attention)
+     * 5 = healthy   
+     */
     public int compareHeartRate(float hr) {
     	int rating = 5;
-        if (hr < NORMAL_HEART_RATE[0]) { // Heart rate is lower than normal
-           if (hr < 30) {
-              rating = 1;
-           }
-           else if (hr < 40) {
-              rating = 2;
-           }
-           else if (hr < 50) {
-              rating = 3;
-           }
-           else if (rating < 60) {
-               rating = 4;
-           }
-         }
-        else if (hr > NORMAL_HEART_RATE[1]) { // Heart rate is higher than normal
-           if (hr >= 180) {
-                rating = 1;
-           }
-          else if (hr >= 150) {
-                rating = 2;
-          }
-          else if (rating >= 120) {
-                 rating = 3;
-          }
-          else if (rating >= 100) {
-                rating = 4;
-          } 
-    	}
+        if (hr > NORMAL_HEART_RATE[1]) {
+        	if (hr > 140) {
+        		rating = 1;
+        	}
+        	else if (hr > 130) {
+        		rating = 2;
+        	}
+        	else if (hr > 120) {
+        		rating = 3;
+        	}
+        	else if (hr > 110) {
+        		rating = 4;
+        	}
+        } else if (hr < NORMAL_HEART_RATE[0]) {
+        	if (hr < 20) {
+        		rating = 1;
+        	} else if (hr < 30) {
+        		rating = 2;
+        	} else if (hr < 40) {
+        		rating = 3;
+        	} else if (hr < 50) {
+        		rating = 4;
+        	}
+        }
         return rating;
     }
     
