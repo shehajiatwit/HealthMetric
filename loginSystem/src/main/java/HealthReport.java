@@ -4,6 +4,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -15,6 +16,7 @@ import java.io.*;
 import java.util.ArrayList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.image.WritableImage;
 import javax.imageio.ImageIO;
 import javafx.stage.FileChooser;
@@ -84,7 +86,7 @@ public class HealthReport {
     /*
      * Returns an ArrayList of floats of the user's measures of their dystolic bp values from oldest to most recent.
      */
-    public ArrayList<Float> getDystolic() throws FileNotFoundException {
+    public ArrayList<Float> getDystolic() throws FileNotFoundException{
         ArrayList<Float> userDystolic = new ArrayList<>();
         ArrayList<String[]> allMetrics = getUserData();
 
@@ -234,6 +236,7 @@ public class HealthReport {
 
             // Create line chart for heart rate
             LineChart<String, Number> heartRateChart = new LineChart<>(heartRateXAxis, heartRateYAxis);
+            heartRateChart.setTitle("Heart Rate vs Time");
             XYChart.Series<String, Number> heartRateSeries = new XYChart.Series<>();
             heartRateSeries.setName("Heart Rate");
 
@@ -243,7 +246,6 @@ public class HealthReport {
             }
             heartRateChart.getData().add(heartRateSeries);
             
-
             
             // Create data series for glucose levels chart
             CategoryAxis glucoseXAxis = new CategoryAxis();
@@ -254,8 +256,9 @@ public class HealthReport {
 
             // Create line chart for glucose
             LineChart<String, Number> glucoseChart = new LineChart<>(glucoseXAxis, glucoseYAxis);
+            glucoseChart.setTitle("Fasting Blood Glucose Levels vs Time");
             XYChart.Series<String, Number> glucoseSeries = new XYChart.Series<>();
-            glucoseSeries.setName("Fasting Blood Glucose Levels");
+            glucoseSeries.setName("Glucose Levels");
 
             // Add glucose data points to the chart
             for (int i = 0; i < glucoseLevels.size(); i++) {
@@ -273,6 +276,7 @@ public class HealthReport {
 
             // Create line chart for blood pressure
             LineChart<String, Number> bpChart = new LineChart<>(bpXAxis, bpYAxis);
+            bpChart.setTitle("Blood Pressure vs Time");
             XYChart.Series<String, Number> systolicSeries = new XYChart.Series<>();
             XYChart.Series<String, Number> diastolicSeries = new XYChart.Series<>();
             systolicSeries.setName("Systolic Pressure");
@@ -284,6 +288,7 @@ public class HealthReport {
                 diastolicSeries.getData().add(new XYChart.Data<>(times.get(i), diastolicPressures.get(i)));
             }
             bpChart.getData().addAll(systolicSeries, diastolicSeries);
+            
 
             // Compute average ratings
             float[] averageRatings = getAverageRatings();

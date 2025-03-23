@@ -1,12 +1,11 @@
-
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-
 public class HealthReportLauncher extends Application {
+    private static boolean isJavaFXInitialized = false;
     private static String username;
-
+    
     /**
      * Launches the HealthReport JavaFX application with the specified username.
      *
@@ -14,17 +13,30 @@ public class HealthReportLauncher extends Application {
      */
     public static void launchHealthReport(String user) {
         username = user;
-        launch();
+
+        if (!isJavaFXInitialized) {
+            isJavaFXInitialized = true;
+            // launches JavaFX without freezing the main application.
+            new Thread(() -> Application.launch(HealthReportLauncher.class)).start();
+        } else {
+        	// Ensures that code runs safely on the JavaFX thread
+        	Platform.runLater(() -> HealthReportLauncher.openHealthReport());
+        }
     }
 
     @Override
-    public void start(Stage stage) {
-        // Create an instance of HealthReport and set the username
-        HealthReport healthReport = new HealthReport();
-        healthReport.setUsername(username);
+    public void start(Stage primaryStage) {
+        Platform.setImplicitExit(false);  // Prevent JavaFX from shutting down
+        openHealthReport();
+    }
 
+    public static void openHealthReport() {
         try {
-            // Call the startReport method to initialize the UI
+            Stage stage = new Stage();
+            // Create an instance of HealthReport and set the username
+            HealthReport healthReport = new HealthReport();
+            healthReport.setUsername(username);
+            // Call the startReport method to initizalize the UI
             healthReport.startReport(stage);
         } catch (Exception e) {
             e.printStackTrace();
