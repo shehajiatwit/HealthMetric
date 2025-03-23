@@ -1,5 +1,3 @@
-import SensitiveLoginandData.HealthReport;
-import SensitiveLoginandData.HealthReportLauncher;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,5 +1,3 @@
-package SensitiveLoginandData;
-
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
