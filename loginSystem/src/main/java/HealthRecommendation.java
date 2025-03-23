@@ -1,5 +1,7 @@
 /*
- * Abia Hasan
+ * Author: Abia Hasan
+ * This program looks at one health metric at a time, and compares the metric to the normal/healthy range.
+ * Based on how much the health metric value deviates from the normal range, a rating is provied.
  */
 
 public class HealthRecommendation {

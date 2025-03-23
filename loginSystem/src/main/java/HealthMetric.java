@@ -2,6 +2,7 @@ import java.time.LocalTime;
 
 /*
  * Author: Abia Hasan
+ * This program stores contains and stores health metric values. It serves for other classes to store health metric values and access them. 
  */
 
 public class HealthMetric {

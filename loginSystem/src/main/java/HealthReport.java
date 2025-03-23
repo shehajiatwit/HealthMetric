@@ -10,19 +10,19 @@ import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.chart.CategoryAxis;
-
 import java.io.*;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.image.WritableImage;
 import javax.imageio.ImageIO;
-
 import javafx.stage.FileChooser;
+
+/*
+ * Author: Abia Hasan
+ * This program generates a Health Report containing three linear graphs showcasing all of user's recorded heart beat, glucose levels, blood pressure over time.
+ * There is a additional section that gives a score and a recommendation to the user based on their health metric trends. 
+ */
 
 public class HealthReport {
 
