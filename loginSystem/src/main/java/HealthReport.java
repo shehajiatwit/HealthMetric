@@ -299,7 +299,7 @@ public class HealthReport {
 
             // Create a Text node to display recommendations
             Text recommendationLabel = new Text(recommendationText);
-            recommendationLabel.setFill(Color.DARKBLUE);
+            recommendationLabel.setFill(Color.BLACK);
             recommendationLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
             // Create a full report containing title, charts, and recommendation
@@ -321,7 +321,7 @@ public class HealthReport {
             vbox.getChildren().add(buttonBox);
 
             // Set the scene
-            Scene scene = new Scene(vbox, 700, 850); // 800 & 950
+            Scene scene = new Scene(vbox, 1000, 850); 
             stage.setScene(scene);
             stage.setTitle(userName() + "'s Health Metric Report");
             stage.show();
@@ -336,29 +336,29 @@ public class HealthReport {
 
         // Heart Rate Recommendation
         if (ratings[0] < 2) {
-            recommendation.append("- Your average heart rate is low. Consult a doctor.\n");
+            recommendation.append("Your average heart rate score is " + ratings[0] + "/5 - Your average heart rate is abnormal. Consult a doctor.\n");
         } else if (ratings[0] > 4) {
-            recommendation.append("- Your average heart rate is above average. Ensure regular check-ups.\n");
+            recommendation.append("Your average heart rate score is " + ratings[0] + "/5 - Your average heart rate is within a healthy range.\n");
         } else {
-            recommendation.append("- Your average heart rate is within a healthy range.\n");
+            recommendation.append("Your average heart rate score is " + ratings[0] + "/5 - Your average heart rate is moderate. Ensure regular check-ups to avoid a severe progression.\n");
         }
 
         // Glucose Level Recommendation
         if (ratings[1] < 2) {
-            recommendation.append("- Your average glucose levels are low. Consult a doctor. Maintain a balanced diet.\n");
+            recommendation.append("Your average glucose level score is " + ratings[1] + "/5 - Your average glucose levels are abnormal. Consult a doctor. Maintain a balanced diet.\n");
         } else if (ratings[1] > 4) {
-            recommendation.append("- Your average glucose levels are high. Consult a doctor. Consider reducing sugar intake.\n");
+            recommendation.append("Your average glucose level score is " + ratings[1] + "/5 - Your average glucose levels are within a healthy range.\n");
         } else {
-            recommendation.append("- Your glucose levels are normal.\n");
+            recommendation.append("Your average glucose level score is " + ratings[1] + "/5 - Your glucose levels are moderate. Ensure regular check-ups to avoid a severe progression.\n");
         }
 
         // Blood Pressure Recommendation
         if (ratings[2] < 2) {
-            recommendation.append("- Your average blood pressure is low. Stay hydrated and maintain proper nutrition.\n");
+            recommendation.append("Your average blood pressure score is " + ratings[2] + "/5 - Your average blood pressure is abnormal. Consult a doctor. Stay hydrated and maintain proper nutrition.\n");
         } else if (ratings[2] > 4) {
-            recommendation.append("- Your average blood pressure is high. Reduce sodium intake and consult a physician.\n");
+            recommendation.append("Your average blood pressure score is " + ratings[2] + "/5 - Your average blood pressure is within a healthy range.\n");
         } else {
-            recommendation.append("- Your average blood pressure is in a good range.\n");
+            recommendation.append("Your average blood pressure score is " + ratings[2] + "/5 - Your average blood pressure is moderate. Ensure regular check-ups to avoid a severe progression. \n");
         }
 
         return recommendation.toString();
