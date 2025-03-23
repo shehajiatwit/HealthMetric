@@ -47,12 +47,6 @@ public class HealthRecommendation {
      * 1 = unhealthy (should seek immediate medical attention)
      * 5 = healthy
      */
-    
-    /*
-     * Returns a rating from 1-5 of user's blood pressure.  
-     * 1 = unhealthy (should seek immediate medical attention)
-     * 5 = healthy   
-     */
     public int compareHeartRate(float hr) {
     	int rating = 5;
         if (hr > NORMAL_HEART_RATE[1]) {
