@@ -1,74 +1,40 @@
-import java.time.LocalTime;
-
 /*
  * Author: Abia Hasan
  * This program stores contains and stores health metric values. It serves for other classes to store health metric values and access them. 
  */
 
 public class HealthMetric {
-    private float heartRate;
-    private float systolic;
-    private float dystolic;
-    private float glucoseLevel;
+	
+	private float metricValue;
 
     public HealthMetric(float value, String type) {
         String metric = type.toLowerCase();
         if (metric.equals("heartrate")) {
-            heartRate = value;
-            systolic = 0;
-            dystolic = 0;
-            glucoseLevel = 0;
+        	metricValue = value;
         } else if (metric.equals("systolicbp")) {
-            systolic = value;
-            heartRate = 0;
-            dystolic = 0;
-            glucoseLevel = 0;
+        	metricValue = value;	
         } else if (metric.equals("dystolicbp")) {
-            dystolic = value;
-            heartRate = 0;
-            systolic = 0;
-            glucoseLevel = 0;
+        	metricValue = value;
         } else if (metric.equals("glucose")) {
-            glucoseLevel = value;
-            heartRate = 0;
-            systolic = 0;
-            dystolic = 0;
+        	metricValue = value;
         }
 
     }
 
-    public void setTime() {
-       LocalTime timeNow = LocalTime.now();
-       System.out.println(timeNow);
-    }
-    
-    public void setHeartRate(float newHeartRate) {
-        this.heartRate = newHeartRate;
-    }
-
-    public void setBloodPressure(float newSystolic, float newDystolic) {
-        this.systolic = newSystolic;
-        this.dystolic = newDystolic;
-    }
-
-    public void setGlucoseLevel(float newGlucose) {
-        this.glucoseLevel = newGlucose;
-    }
-
     public float getHeartRate() {
-       return this.heartRate;
+       return metricValue;
     }
 
     public float getSystolic() {
-        return this.systolic;
+    	return metricValue;
     }
 
     public float getDystolic() {
-        return this.dystolic;
+    	return metricValue;
     }
 
     public float getGlucose() {
-        return this.glucoseLevel;
+    	return metricValue;
     }
 
 
