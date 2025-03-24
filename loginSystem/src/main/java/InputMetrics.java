@@ -179,19 +179,19 @@ public class InputMetrics {
             switch (currentMetric) {
                 case "heartRate":
                     int hr = Integer.parseInt(inputValue);
-                    if (hr < 30 || hr > 250) return "Unusual heart rate value";
+                    if (hr < 30 || hr > 250) return "Invalid heart rate value"; 
                     break;
                 case "bloodPressure":
                     String[] parts = inputValue.split("/");
                     if (parts.length != 2) return "Invalid format. Use systolic/diastolic";
                     int systolic = Integer.parseInt(parts[0].trim());
                     int diastolic = Integer.parseInt(parts[1].trim());
-                    if (systolic < 50 || diastolic < 30) return "Impossibly low blood pressure";
-                    if (systolic > 250 || diastolic > 150) return "Dangerously high blood pressure";
+                    if (systolic < 50 || diastolic < 30) return "Invalid. Impossibly low blood pressure";
+                    if (systolic > 250 || diastolic > 150) return "Invalid. Dangerously high blood pressure";
                     break;
                 case "glucoseRate":
                     int glucose = Integer.parseInt(inputValue);
-                    if (glucose < 20 || glucose > 1000) return "Extreme glucose level";
+                    if (glucose < 20 || glucose > 1000) return "Invalid. Extreme glucose level";
                     break;
             }
         } catch (NumberFormatException e) {
